@@ -36,15 +36,17 @@ public class MainActivity extends AppCompatActivity {
 //        return arrRoom;
 //    }
 
-    private static Socket mSocket;
+    private  Socket mSocket;
     {
         try {
             mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
 //            mSocket = IO.socket("http://10.0.3.2:3000/");
-        } catch (URISyntaxException e) {}
+        } catch (URISyntaxException e) {
+            Log.d("", "instance initializer: " );
+        }
     }
 
-    public static Socket getmSocket() {
+    public  Socket getmSocket() {
         return mSocket;
     }
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         addEvent();
 
         // client on server send user
-        mSocket.on("result-register", onServerSendUser);
+//        mSocket.on("result-register", onServerSendUser);
         mSocket.on("result-login", onSeverSendResultLogin);
         mSocket.on("server-send-avatar-profile", onServerSendAvataProfile);
     }
@@ -93,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         txtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRegisterDialog();
+                Intent intent=new Intent(MainActivity.this,Register.class);
+                startActivity(intent);
             }
         });
 
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    boolean ketQua = true;
+                    boolean ketQua ;
                     try {
                         ketQua = (boolean) data.get("noidung");
                         Toast.makeText(MainActivity.this, String.valueOf(ketQua), Toast.LENGTH_LONG).show();
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 //                            Toast.makeText(MainActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
 //                            registerDialog.cancel();
 //                        }
-                        mToast.toastShort(MainActivity.this, image.toString());
+                        mToast.toastShort(MainActivity.this, image);
 
                     } catch (JSONException e) {
                         Log.e("ERROR OnRegister", e.toString());
@@ -213,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ketQua = 0;
-                    JSONObject userObject = new JSONObject();
+                    int ketQua;
+                    JSONObject userObject ;
                     try {
                         JSONObject json  = data.getJSONObject("noidung");
                         ketQua = json.getInt("kiemTra");
@@ -249,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         Log.e("ERROR On Login", e.toString());
-                        return;
+
                     }
 
                 }
@@ -262,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         txtUserName = (EditText) findViewById(R.id.txtUserName);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        txtPassword = (EditText) findViewById(R.id.txtPassword1);
         txtRegister = (TextView) findViewById(R.id.txtRegister);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
 

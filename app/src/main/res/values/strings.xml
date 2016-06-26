@@ -21,10 +21,14 @@
     <string name="userlogin">USERLOGIN</string>
     <string name="signinwith"> Sign in with</string>
     <string name="user">UserName</string>
+    <string name="mail">Mail Address</string>
+    <string name="phone">Phone Number</string>
     <string name="password">Password</string>
     <string name="forgotpassword">Chưa có tài khoản? </string>
-
+    <string name="keepsignin">Keep In Sign In</string>
+    <string name="logninfacebook">LogIn With Facebook</string>
     <string name="boqua">Bỏ qua</string>
     <string name="login">Log in</string>
+    <string name="or"> Or </string>
 
 </resources>
