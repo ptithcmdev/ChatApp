@@ -88,23 +88,46 @@
         android:paddingTop="@dimen/canhle20"
         android:paddingBottom="@dimen/canhle20"
         android:id="@+id/btn_signin" />
-
-    <Button
-        android:layout_width="match_parent"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btnFacebookLogin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/logninfacebook"
-
-        android:textColor="#FFF"
-        android:background="#0286D0"
-        android:layout_marginLeft="@dimen/canhle20"
-        android:layout_marginRight="@dimen/canhle20"
-        android:layout_marginTop="@dimen/canhle20"
-        android:textSize="@dimen/kichthuocchu20"
-        android:paddingTop="@dimen/canhle20"
-        android:paddingBottom="@dimen/canhle20"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
 
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/com_facebook_button_icon_white"-->
+        <!--android:id="@+id/imageView2"-->
+        <!--android:layout_gravity="left|center_vertical"-->
+        <!--android:elevation="1dp"-->
+        <!--android:layout_marginLeft="@dimen/canhle20"-->
+        <!--android:layout_marginRight="@dimen/canhle20"-->
+        <!--android:layout_marginTop="@dimen/canhle20" -->
+            <!--android:textSize="@dimen/kichthuocchu20"-->
+            <!--android:paddingTop="@dimen/canhle20"-->
+            <!--android:paddingBottom="@dimen/canhle20"/>-->
+
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/logninfacebook"-->
+            <!--android:id="@+id/button"-->
+            <!--android:textColor="#FFF"-->
+            <!--android:background="#0286D0"-->
+            <!--android:layout_marginLeft="@dimen/canhle20"-->
+            <!--android:layout_marginRight="@dimen/canhle20"-->
+            <!--android:layout_marginTop="@dimen/canhle20"-->
+            <!--android:textSize="@dimen/kichthuocchu20"-->
+            <!--android:paddingTop="@dimen/canhle20"-->
+            <!--android:paddingBottom="@dimen/canhle20" />-->
+    <!--</FrameLayout>-->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

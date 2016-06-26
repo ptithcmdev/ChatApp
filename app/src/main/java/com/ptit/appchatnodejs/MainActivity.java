@@ -2,9 +2,13 @@ package com.ptit.appchatnodejs;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +19,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -28,7 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,39 +71,61 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pre;
 
     ArrayList<User> arrayUserSaveLogin;
-
+    LoginButton btnLoginFacebook;
+    CallbackManager callbackManager;
 
     // user đăng nhập thành công
     public static User userLogin;
-
-
     // biến cho biết đã đăng nhập thành công hay không
     private boolean isLogin = true;
-
     private String sharePreName = "sharePre";
-
     ConnectionManager checkConnectToInternet = new ConnectionManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addFacebookApi();
+
         setContentView(R.layout.activity_main);
 
         mSocket.connect();
 
         addControls();
         addEvent();
-
+        loginLoginFacebook();
         // client on server send user
         mSocket.on("result-login", onSeverSendResultLogin);
 
         pre = SharedPreferencesOption.getPreferences(MainActivity.this, getString(R.string.txt_file_share_preference));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
+    }
+
+    private void loginLoginFacebook() {
+        btnLoginFacebook.setReadPermissions(Arrays.asList("user_status", "email"));
+        btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        int i = 5;
+                        String s = loginResult.toString();
+                        mToast.toastShort(MainActivity.this,s);
+                        mToast.toastShort(MainActivity.this,"okay");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        mToast.toastShort(MainActivity.this,"cancle");
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        mToast.toastShort(MainActivity.this,"error");
+                    }
+                });
+
     }
 
     private void addControls() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,6 +135,30 @@ public class MainActivity extends AppCompatActivity {
         txtRegister = (TextView) findViewById(R.id.txtRegister);
         btnSignIn = (Button) findViewById(R.id.btn_signin);
         checkboxSavedInfomation = (CheckBox) findViewById(R.id.chkSignin);
+        btnLoginFacebook = (LoginButton) findViewById(R.id.btnFacebookLogin);
+
+    }
+
+    private void addFacebookApi() {
+        showKeyHash();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+    }
+
+    private void showKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(),
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
     }
 
     @Override
@@ -156,7 +214,12 @@ public class MainActivity extends AppCompatActivity {
                 if (checkConnectToInternet.isConnectingToInternet()) {
                     mSocket.emit("client-send-login", name, password);
                 }
+            }
+        });
 
+        btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
