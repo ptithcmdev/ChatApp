@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 //        return arrRoom;
 //    }
 
-    private  Socket mSocket;
+    private static Socket mSocket;
     {
         try {
             mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public  Socket getmSocket() {
+    public static  Socket getmSocket() {
         return mSocket;
     }
 
@@ -114,44 +114,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showRegisterDialog() {
-        registerDialog = new Dialog(MainActivity.this);
-        registerDialog.setContentView(R.layout.layout_register);
 
-        registerDialog.setTitle("REGISTER USER NAME");
-        registerDialog.setCanceledOnTouchOutside(false);
-
-        txtUserRegister = (EditText) registerDialog.findViewById(R.id.txtUserNameRegister);
-        txtPasswordRegister = (EditText) registerDialog.findViewById(R.id.txtPassword);
-        txtEmailRegister = (EditText) registerDialog.findViewById(R.id.txtEmailRegister);
-        txtPhoneRegister = (EditText) registerDialog.findViewById(R.id.txtPhonenumber);
-
-        btnRegister = (Button) registerDialog.findViewById(R.id.btnRegister);
-        btnCancel = (Button) registerDialog.findViewById(R.id.btnCancel);
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = txtUserRegister.getText().toString();
-                String password = txtPasswordRegister.getText().toString();
-                String email = txtEmailRegister.getText().toString();
-                String phone = txtPhoneRegister.getText().toString();
-
-                if (checkConnectToInternet.isConnectingToInternet())
-                    mSocket.emit("client-send-information", name, password, email, phone);
-
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerDialog.cancel();
-            }
-        });
-
-        registerDialog.show();
-    }
 
     // client on username from server
     private Emitter.Listener onServerSendUser = new Emitter.Listener() {
