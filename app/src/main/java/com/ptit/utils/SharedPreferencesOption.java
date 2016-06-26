@@ -15,11 +15,26 @@ import java.util.Arrays;
  */
 public class SharedPreferencesOption {
 
-     public SharedPreferences getPreferences (Activity activity,String fileName){
-         SharedPreferences pre =activity.getSharedPreferences(fileName, activity.MODE_PRIVATE);
-         return pre;
+    public static SharedPreferences getPreferences (Activity activity,String fileName){
+        SharedPreferences pre =activity.getSharedPreferences(fileName, activity.MODE_PRIVATE);
+        return pre;
     }
-    public ArrayList<User> getListUserPreferences(SharedPreferences pre,String key)
+
+    public static User getUserCurrent (SharedPreferences pre, String key){
+        User user = new User();
+        if (pre.contains(key)){
+            String jsonUser = pre.getString(key, "");
+            if (jsonUser!=null)
+            {
+                User[] arrUser = new Gson().fromJson(jsonUser, User[].class);
+                user = arrUser[0];
+            }
+//                user = new Gson().fromJson(jsonUser, User.class);
+        }
+        return user;
+    }
+
+    public static ArrayList<User> getListUserPreferences(SharedPreferences pre,String key)
     {
         ArrayList<User> users = new ArrayList<>();
         if (pre.contains(key) ){
@@ -35,10 +50,10 @@ public class SharedPreferencesOption {
         return users;
     }
 
-    public void saveUserPreferences(SharedPreferences pre,String key, User user,boolean ttdn)
+    public static void saveUserPreferences(SharedPreferences pre,String key, User user,boolean isSaved)
     {
 //        boolean ttdn = pre.getBoolean("statusSaved", false);
-        if(ttdn)
+        if(isSaved)
         {
             ArrayList<User> users = getListUserPreferences(pre,key);
             for(User u:users){

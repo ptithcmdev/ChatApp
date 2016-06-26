@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -81,8 +82,7 @@ public class ListChatRoomActivity extends AppCompatActivity {
     }
 
     private void getDataFromLoginActivity() {
-        mSocket =MainActivity.getmSocket();
-        mSocket.connect();
+        mSocket = MainActivity.mSocket;
         Intent intent = getIntent();
         userLogin = (User) intent.getSerializableExtra(getString(R.string.userlogin));
 //        userLogin = (User) intent.getSerializableExtra("USERLOGIN");
@@ -328,6 +328,24 @@ public class ListChatRoomActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+////        finish();
+//        moveTaskToBack(true);
+//         ChatRoomFragment fragment = (ChatRoomFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listRoom);
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_layout_chatroom);
+        if (f instanceof ChatRoomFragment || f instanceof ProfileFragment) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            super.onBackPressed();
+
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void showProfilePage(User userLogin) {

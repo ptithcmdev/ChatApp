@@ -4,7 +4,7 @@
     <string name="hint_email">email</string>
 
     <string name="btn_sign_up">sign_up</string>
-    <string name="register">Register Account</string>
+    <string name="register"><u>Register Account</u></string>
     <string name="emailRegister">Email :</string>
     <string name="phoneNumberRegister">Phone number:</string>
 
@@ -19,6 +19,14 @@
     <string name="txtConnectFail">NO CONNECT TO INTERNET</string>
     <string name="information">Thông tin cá nhân</string>
     <string name="userlogin">USERLOGIN</string>
+
+    <string name="roomSelected">RoomSelected</string>
+
+    <string name="txt_user_share_preference">USER_INFOMATION</string>
+    <string name="txt_is_saved_infomation">IsSavedInfomation</string>
+    <string name="txt_file_share_preference">INFORMATION</string>
+    <string name="txt_current_userLogin">USER_CURRENT</string>
+
     <string name="signinwith"> Sign in with</string>
     <string name="user">UserName</string>
     <string name="mail">Mail Address</string>
@@ -31,4 +39,7 @@
     <string name="login">Log in</string>
     <string name="or"> Or </string>
 
+
+    <!--Library ID here-->
+    <string name="facebook_app_id">1035310043221922</string>
 </resources>

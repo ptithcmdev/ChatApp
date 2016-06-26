@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#01A9F2"
-
     >
-
     <ImageView
         android:contentDescription="@string/app_name"
         android:layout_width="133dp"
@@ -15,14 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/marginTopHinh"
         />
-
-
-
-
-
-
-
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/user"
@@ -96,7 +87,7 @@
         android:textSize="@dimen/kichthuocchu20"
         android:paddingTop="@dimen/canhle20"
         android:paddingBottom="@dimen/canhle20"
-        android:id="@+id/btn_signup" />
+        android:id="@+id/btn_signin" />
 
     <Button
         android:layout_width="match_parent"
@@ -136,20 +127,7 @@
             android:textStyle="bold"
             android:text="@string/register"
             android:textColor="#fff"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:textColor="#fff"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="@string/boqua"
-            android:textColor="#fff"
-            />
+            android:layout_marginLeft="10dp" />
 
 
     </LinearLayout>

@@ -55,11 +55,11 @@ public class BaseAdapterChat extends BaseAdapter {
         inflater = context.getLayoutInflater();
         if (objects.get(position).isSelf()) {
             // message belongs to you, so load the right aligned layout
-            convertView = inflater.inflate(R.layout.chat_item_right,parent);
+            convertView = inflater.inflate(R.layout.chat_item_right,null);
 
         } else {
             // message belongs to other person, load the left aligned layout
-            convertView = inflater.inflate(R.layout.chat_item_left,parent);
+            convertView = inflater.inflate(R.layout.chat_item_left,null);
         }
         viewHolder = new ViewHolder();
         viewHolder.imgHinh = (ImageView) convertView.findViewById(R.id.imgAvatar);

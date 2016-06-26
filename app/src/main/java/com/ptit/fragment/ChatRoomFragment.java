@@ -186,7 +186,7 @@ public class ChatRoomFragment extends Fragment {
             }
         });
 
-        mSocket = MainActivity.getmSocket();
+        mSocket = MainActivity.mSocket;
         mSocket.on("server-send-message",onSeverSendMessage);
 
 //        ((AppCompatActivity)getActivity()).setSupportActionBar(chatRoomToolBar);

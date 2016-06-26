@@ -23,14 +23,6 @@ public class Register extends AppCompatActivity {
     ConnectionManager checkConnectToInternet = new ConnectionManager(this);
     Activity activity;
     private  Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
-//            mSocket = IO.socket("http://10.0.3.2:3000/");
-        } catch (URISyntaxException e) {
-            Log.d(e.getMessage(), "instance initializer: ");
-        }
-    }
 
     EditText txtUserNameRegister,txtPassword,txtEmailRegister,txtPhonenumber;
     Button btnRegister;
@@ -51,9 +43,9 @@ public class Register extends AppCompatActivity {
                 String password = txtPassword.getText().toString();
                 String email = txtEmailRegister.getText().toString();
                 String phone = txtPhonenumber.getText().toString();
-
+                String image = "";
                 if (checkConnectToInternet.isConnectingToInternet())
-                    mSocket.emit("client-send-information", name, password, email, phone);
+                    mSocket.emit("client-send-information", name, password, email, phone, image);
 
             }
         });
@@ -65,16 +57,17 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    boolean ketQua;
+                    int ketQua;
                     try {
-                        ketQua = (boolean) data.get("noidung");
-                        Toast.makeText(Register.this, String.valueOf(ketQua), Toast.LENGTH_LONG).show();
-                        if (!ketQua) {
+                        ketQua = (int) data.get("noidung");
+                        if (ketQua == 2) {
                             Toast.makeText(Register.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
+                        } else if (ketQua == 1) {
+                                Toast.makeText(Register.this, "Tên đăng nhập đã tồn tại ", Toast.LENGTH_SHORT).show();
                         } else {
 
                             Toast.makeText(Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                            activity.finish();
+                            finish();
                         }
                     } catch (JSONException e) {
                         Log.e("ERROR OnRegister", e.toString());
@@ -86,6 +79,8 @@ public class Register extends AppCompatActivity {
     };
 
     private void addControls() {
+        mSocket = MainActivity.mSocket;
+
         activity=getParent();
         txtEmailRegister= (EditText) findViewById(R.id.txtEmailRegister);
         txtPassword= (EditText) findViewById(R.id.txtPassword);
