@@ -1,0 +1,161 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#01A9F2"
+
+    >
+
+    <ImageView
+        android:layout_width="133dp"
+        android:layout_height="133dp"
+        android:src="@drawable/ic_forum_white_48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/marginTopHinh"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/canhle20"
+        >
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/user"
+        android:textColorHint="#fff"
+        android:drawableLeft="@drawable/ic_mail_outline_white_24dp"
+        android:drawablePadding="@dimen/canhlehinh20"
+        android:layout_marginLeft="@dimen/canhle20"
+        android:layout_marginRight="@dimen/canhle20"
+        android:background="#01A9F2"
+        android:textColor="#fff"
+        android:padding="@dimen/canhle10"
+        android:id="@+id/txtUserName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:drawablePadding="@dimen/canhle10"
+        android:layout_marginLeft="@dimen/canhle20"
+        android:layout_marginRight="@dimen/canhle20"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView"
+        android:background="#0286D0" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:drawableLeft="@drawable/ic_vpn_key_white_24dp"
+        android:drawablePadding="@dimen/canhlehinh20"
+        android:layout_marginLeft="@dimen/canhle20"
+        android:layout_marginRight="@dimen/canhle20"
+        android:layout_marginTop="@dimen/canhle10"
+        android:textColorHint="#fff"
+        android:background="#01A9F2"
+        android:textColor="#fff"
+        android:padding="@dimen/canhle10"
+
+        android:password="true"
+        android:id="@+id/txtPassword" />
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chkSignin"
+        android:textColor="#FFF"
+        android:text="Keep In Sign In"
+        android:layout_gravity="center_horizontal"
+        app:buttonTint="#FFF" />
+
+    <!--<CheckBox-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!---->
+        <!--android:textColorHint="#FFF"-->
+        <!--android:textColor="#FFF"-->
+        <!--android:checked="false"-->
+        <!--android:hint="Keep In Sign In"-->
+        <!--android:layout_gravity="center_horizontal" />-->
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng Nhập"
+
+        android:textColor="#01A9F2"
+        android:background="#fff"
+        android:layout_marginLeft="@dimen/canhle20"
+        android:layout_marginRight="@dimen/canhle20"
+        android:layout_marginTop="@dimen/canhle20"
+        android:textSize="@dimen/kichthuocchu20"
+        android:paddingTop="@dimen/canhle20"
+        android:paddingBottom="@dimen/canhle20"
+        android:id="@+id/btn_signup" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập với facebook"
+
+        android:textColor="#FFF"
+        android:background="#0286D0"
+        android:layout_marginLeft="@dimen/canhle20"
+        android:layout_marginRight="@dimen/canhle20"
+        android:layout_marginTop="@dimen/canhle20"
+        android:textSize="@dimen/kichthuocchu20"
+        android:paddingTop="@dimen/canhle20"
+        android:paddingBottom="@dimen/canhle20"
+        />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgotpassword"
+            android:textColor="#fff"
+            />
+        <TextView
+            android:id="@+id/txtRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/register"
+            android:textColor="#fff"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" hoặc "
+            android:textColor="#fff"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/boqua"
+            android:textColor="#fff"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>
