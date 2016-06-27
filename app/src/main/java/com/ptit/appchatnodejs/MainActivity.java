@@ -1,11 +1,16 @@
 package com.ptit.appchatnodejs;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -23,11 +28,22 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.ptit.model.User;
 import com.ptit.supporter.mToast;
 import com.ptit.utils.ConnectionManager;
@@ -50,7 +66,17 @@ public class MainActivity extends AppCompatActivity {
 //        return arrRoom;
 //    }
 
+    private static int RC_SIGN_IN = 1111;
+    // Google variables
+    SignInButton btnGoogleLogin;
+
+    ///facebook
+    LoginButton btnLoginFacebook;
+    CallbackManager callbackManager;
+
     public static Socket mSocket;
+    private String GOOGLE_LOGIN_TAG = "GOOGLE_LOGIN";
+
     {
         try {
             mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
@@ -71,8 +97,11 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pre;
 
     ArrayList<User> arrayUserSaveLogin;
-    LoginButton btnLoginFacebook;
-    CallbackManager callbackManager;
+
+
+    /// Goggle
+    GoogleApiClient mGoogleApiClient;
+    GoogleSignInOptions gso;
 
     // user đăng nhập thành công
     public static User userLogin;
@@ -84,13 +113,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFacebookApi();
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        addFacebookApi();
+        addGoogleApi();
+        addControls();
+
 
         mSocket.connect();
-
-        addControls();
+//
+//
         addEvent();
         loginLoginFacebook();
         // client on server send user
@@ -100,14 +133,55 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void addGoogleApi() {
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                    }
+                } /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+    }
+
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
     private void loginLoginFacebook() {
-        btnLoginFacebook.setReadPermissions(Arrays.asList("user_status", "email"));
+        btnLoginFacebook.setReadPermissions(Arrays.asList("user_photos","user_status", "email", "user_birthday", "public_profile"));
         btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         int i = 5;
-                        String s = loginResult.toString();
-                        mToast.toastShort(MainActivity.this,s);
+                        String id = loginResult.getAccessToken().getUserId();
+                        String name = loginResult.getAccessToken().getToken();
+
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                            Log.d("d",object.toString());
+                                    }
+
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,picture,name,email");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+//                        mToast.toastShort(MainActivity.this,s);
                         mToast.toastShort(MainActivity.this,"okay");
                     }
 
@@ -124,6 +198,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d("GOOGLE LOGIN", "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount person = result.getSignInAccount();
+            Log.i(GOOGLE_LOGIN_TAG, "Display Name: " + person.getDisplayName());
+            Log.i(GOOGLE_LOGIN_TAG, "Gender: " + person.getEmail());
+            Log.i(GOOGLE_LOGIN_TAG, "About Me: " + person.getPhotoUrl());
+            Log.i(GOOGLE_LOGIN_TAG, "Birthday: " + person.getFamilyName());
+//            updateUI(true);
+        } else {
+            Log.i(GOOGLE_LOGIN_TAG, "ERROR !");
+//            updateUI(false);
+        }
+    }
+
     private void addControls() {
 
 
@@ -135,13 +236,28 @@ public class MainActivity extends AppCompatActivity {
         txtRegister = (TextView) findViewById(R.id.txtRegister);
         btnSignIn = (Button) findViewById(R.id.btn_signin);
         checkboxSavedInfomation = (CheckBox) findViewById(R.id.chkSignin);
-        btnLoginFacebook = (LoginButton) findViewById(R.id.btnFacebookLogin);
 
+        btnLoginFacebook = (LoginButton) findViewById(R.id.btnFacebookLogin);
+        btnGoogleLogin = (SignInButton) findViewById(R.id.btnGoogleLogin);
+        btnGoogleLogin.setSize(SignInButton.SIZE_STANDARD);
+        btnGoogleLogin.setScopes(gso.getScopeArray());
+        btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleLogin();
+            }
+        });
+
+    }
+
+    private void googleLogin() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void addFacebookApi() {
         showKeyHash();
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
         callbackManager = CallbackManager.Factory.create();
     }
 
@@ -165,35 +281,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        pre = SharedPreferencesOption.getPreferences(MainActivity.this, getString(R.string.txt_file_share_preference));
-        arrayUserSaveLogin = SharedPreferencesOption.getListUserPreferences(pre, getString(R.string.txt_user_share_preference));
+            pre = SharedPreferencesOption.getPreferences(MainActivity.this, getString(R.string.txt_file_share_preference));
+            arrayUserSaveLogin = SharedPreferencesOption.getListUserPreferences(pre, getString(R.string.txt_user_share_preference));
 
-        userLogin = SharedPreferencesOption.getUserCurrent(pre, getString(R.string.txt_current_userLogin));
-        if (userLogin.getName() != null) {
-            Intent intent = new Intent(MainActivity.this, ListChatRoomActivity.class);
-            intent.putExtra(getString(R.string.userlogin), userLogin);
-            startActivity(intent);
-        }
-
-        ArrayList<String> arrayUserName = new ArrayList<>();
-
-        for (User user : arrayUserSaveLogin)
-            arrayUserName.add(user.getName());
-
-
-        ArrayAdapter<String> adapterUserName = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, arrayUserName);
-        txtUserName.setAdapter(adapterUserName);
-
-        txtUserName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (User user : arrayUserSaveLogin)
-                    if (user.getName().equalsIgnoreCase(txtUserName.getText().toString())) {
-                        txtPassword.setText(user.getPassword());
-                        checkboxSavedInfomation.setChecked(true);
-                    }
+            userLogin = SharedPreferencesOption.getUserCurrent(pre, getString(R.string.txt_current_userLogin));
+            if (userLogin.getName() != null) {
+                Intent intent = new Intent(MainActivity.this, ListChatRoomActivity.class);
+                intent.putExtra(getString(R.string.userlogin), userLogin);
+                startActivity(intent);
             }
-        });
+
+            ArrayList<String> arrayUserName = new ArrayList<>();
+
+            for (User user : arrayUserSaveLogin)
+                arrayUserName.add(user.getName());
+
+
+            ArrayAdapter<String> adapterUserName = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, arrayUserName);
+            txtUserName.setAdapter(adapterUserName);
+
+            txtUserName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    for (User user : arrayUserSaveLogin)
+                        if (user.getName().equalsIgnoreCase(txtUserName.getText().toString())) {
+                            txtPassword.setText(user.getPassword());
+                            checkboxSavedInfomation.setChecked(true);
+                        }
+                }
+            });
 
     }
 
