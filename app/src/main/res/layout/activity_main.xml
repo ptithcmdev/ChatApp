@@ -89,31 +89,6 @@
         android:paddingBottom="@dimen/canhle20"
         android:id="@+id/btn_signin" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/btnFacebookLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/canhle20"
-        android:layout_marginRight="@dimen/canhle20"
-        android:layout_marginTop="@dimen/canhle20"
-        android:textSize="@dimen/kichthuocchu20"
-        android:paddingTop="@dimen/canhle20"
-        android:paddingBottom="@dimen/canhle20"/>
-    />
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnGoogleLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/canhle20"
-        android:layout_marginRight="@dimen/canhle20"
-        android:layout_marginTop="@dimen/canhle20"
-        android:textSize="@dimen/kichthuocchu20"
-        android:paddingBottom="@dimen/canhle20"
-        />
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
 
     <!--<ImageView-->
         <!--android:layout_width="wrap_content"-->
@@ -129,20 +104,22 @@
             <!--android:paddingTop="@dimen/canhle20"-->
             <!--android:paddingBottom="@dimen/canhle20"/>-->
 
-        <!--<Button-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/logninfacebook"-->
-            <!--android:id="@+id/button"-->
-            <!--android:textColor="#FFF"-->
-            <!--android:background="#0286D0"-->
-            <!--android:layout_marginLeft="@dimen/canhle20"-->
-            <!--android:layout_marginRight="@dimen/canhle20"-->
-            <!--android:layout_marginTop="@dimen/canhle20"-->
-            <!--android:textSize="@dimen/kichthuocchu20"-->
-            <!--android:paddingTop="@dimen/canhle20"-->
-            <!--android:paddingBottom="@dimen/canhle20" />-->
-    <!--</FrameLayout>-->
+
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logninfacebook"
+            android:id="@+id/btnFacebookLogin"
+            android:textColor="#FFF"
+            android:background="#0286D0"
+            android:layout_marginLeft="@dimen/canhle20"
+            android:layout_marginRight="@dimen/canhle20"
+            android:layout_marginTop="@dimen/canhle20"
+            android:textSize="@dimen/kichthuocchu20"
+            android:paddingTop="@dimen/canhle20"
+            android:paddingBottom="@dimen/canhle20" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

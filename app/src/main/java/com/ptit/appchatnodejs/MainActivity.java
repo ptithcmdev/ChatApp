@@ -1,6 +1,5 @@
 package com.ptit.appchatnodejs;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -30,20 +28,12 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.ptit.model.User;
 import com.ptit.supporter.mToast;
 import com.ptit.utils.ConnectionManager;
@@ -60,18 +50,11 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private static ArrayList<ChatRoom> arrRoom = new ArrayList<>();
-
-//    public static ArrayList<ChatRoom> getArrRoom() {
-//        return arrRoom;
-//    }
-
-    private static int RC_SIGN_IN = 1111;
     // Google variables
     SignInButton btnGoogleLogin;
 
     ///facebook
-    LoginButton btnLoginFacebook;
+    Button btnLoginFacebook;
     CallbackManager callbackManager;
 
     public static Socket mSocket;
@@ -98,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<User> arrayUserSaveLogin;
 
-
-    /// Goggle
-    GoogleApiClient mGoogleApiClient;
-    GoogleSignInOptions gso;
-
     // user đăng nhập thành công
     public static User userLogin;
     // biến cho biết đã đăng nhập thành công hay không
@@ -117,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         addFacebookApi();
-        addGoogleApi();
         addControls();
 
 
@@ -125,27 +102,10 @@ public class MainActivity extends AppCompatActivity {
 //
 //
         addEvent();
-        loginLoginFacebook();
         // client on server send user
         mSocket.on("result-login", onSeverSendResultLogin);
 
         pre = SharedPreferencesOption.getPreferences(MainActivity.this, getString(R.string.txt_file_share_preference));
-
-    }
-
-    private void addGoogleApi() {
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                } /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
     }
 
@@ -157,44 +117,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loginLoginFacebook() {
-        btnLoginFacebook.setReadPermissions(Arrays.asList("user_photos","user_status", "email", "user_birthday", "public_profile"));
-        btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        int i = 5;
-                        String id = loginResult.getAccessToken().getUserId();
-                        String name = loginResult.getAccessToken().getToken();
 
-                        GraphRequest request = GraphRequest.newMeRequest(
-                                loginResult.getAccessToken(),
-                                new GraphRequest.GraphJSONObjectCallback() {
-                                    @Override
-                                    public void onCompleted(
-                                            JSONObject object,
-                                            GraphResponse response) {
-                                            Log.d("d",object.toString());
-                                    }
-
-                                });
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,picture,name,email");
-                        request.setParameters(parameters);
-                        request.executeAsync();
-
-//                        mToast.toastShort(MainActivity.this,s);
-                        mToast.toastShort(MainActivity.this,"okay");
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        mToast.toastShort(MainActivity.this,"cancle");
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        mToast.toastShort(MainActivity.this,"error");
-                    }
-                });
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos","user_status", "email", "user_birthday", "public_profile"));
 
     }
 
@@ -202,27 +126,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
         callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d("GOOGLE LOGIN", "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount person = result.getSignInAccount();
-            Log.i(GOOGLE_LOGIN_TAG, "Display Name: " + person.getDisplayName());
-            Log.i(GOOGLE_LOGIN_TAG, "Gender: " + person.getEmail());
-            Log.i(GOOGLE_LOGIN_TAG, "About Me: " + person.getPhotoUrl());
-            Log.i(GOOGLE_LOGIN_TAG, "Birthday: " + person.getFamilyName());
-//            updateUI(true);
-        } else {
-            Log.i(GOOGLE_LOGIN_TAG, "ERROR !");
-//            updateUI(false);
-        }
     }
 
     private void addControls() {
@@ -237,28 +141,50 @@ public class MainActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.btn_signin);
         checkboxSavedInfomation = (CheckBox) findViewById(R.id.chkSignin);
 
-        btnLoginFacebook = (LoginButton) findViewById(R.id.btnFacebookLogin);
-        btnGoogleLogin = (SignInButton) findViewById(R.id.btnGoogleLogin);
-        btnGoogleLogin.setSize(SignInButton.SIZE_STANDARD);
-        btnGoogleLogin.setScopes(gso.getScopeArray());
-        btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                googleLogin();
-            }
-        });
+        btnLoginFacebook = (Button) findViewById(R.id.btnFacebookLogin);
 
-    }
-
-    private void googleLogin() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void addFacebookApi() {
         showKeyHash();
 
         callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        String id = loginResult.getAccessToken().getUserId();
+                        String name = loginResult.getAccessToken().getToken();
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        Log.d("d",object.toString());
+                                    }
+
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,picture,name,email");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+//                        mToast.toastShort(MainActivity.this,s);
+                        mToast.toastShort(MainActivity.this,"okay");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
     }
 
     private void showKeyHash() {
@@ -336,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loginLoginFacebook();
             }
         });
     }
