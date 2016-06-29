@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/itemSee"
+            android:title="@string/seePhoto"/>
+    <item android:id="@+id/itemCamera"
+        android:title="@string/camera"/>
+    <item android:id="@+id/itemSelectedPhoto"
+        android:title="@string/selectedPhoto"/>
+</menu>

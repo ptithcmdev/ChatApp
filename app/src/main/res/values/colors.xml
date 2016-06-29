@@ -6,4 +6,13 @@
     <color name="dividerTextBox">#6c6c6c</color>
     <color name="colorGreen">#4caf50</color>
     <color name="leftTextcolorChat">#cfd8dc</color>
+    <color name="white">#ffffffff</color>
+
+    <!-- colors -->
+    <color name="primary">#785447</color>
+    <color name="primaryDark">#5B3F36</color>
+
+    <color name="toolbarTint">#00ffffff</color>
+
+
 </resources>

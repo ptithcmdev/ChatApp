@@ -73,7 +73,7 @@ public class ChatRoomAdapter extends ArrayAdapter<ChatRoom> {
 
         viewHolder.txtTitle.setText(room.getTitle());
         viewHolder.txtOwned.setText(room.getOwned());
-        viewHolder.txtOnlinePeople.setText(String.valueOf(room.getOnlinePeople()));
+        viewHolder.txtOnlinePeople.setText("(" + String.valueOf(room.getOnlinePeople()) + ")");
 
         ConvertImage.String_to_Image(room.getImage(), viewHolder.imgRoom);
 

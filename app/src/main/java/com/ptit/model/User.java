@@ -13,6 +13,33 @@ public class User implements Serializable{
     private String phone;
     private String room;
     private String avatar;
+    private String status;
+    private String birthday;
+    private boolean gender; // true : male, false: female
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
 
     public User(String name, String password) {
         this.name = name;

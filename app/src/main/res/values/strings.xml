@@ -39,7 +39,20 @@
     <string name="login">Log in</string>
     <string name="or"> Or </string>
 
+    <string name="displayname"> Display name : </string>
+    <string name="edit"> Edit </string>
+    <!--<string name="or"> Or </string>-->
+
 
     <!--Library ID here-->
     <string name="facebook_app_id">1035310043221922</string>
+    <string name="birthday">Birthday :</string>
+    <string name="gender">Gender :</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="Phone">Phone :</string>
+    <string name="seePhoto">See Photo</string>
+    <string name="camera">Take a new photo</string>
+    <string name="selectedPhoto">Selected photos in the gallery</string>
+    <string name="save">Save</string>
 </resources>

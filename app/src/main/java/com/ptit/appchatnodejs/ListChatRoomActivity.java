@@ -10,10 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,13 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
 import com.ptit.adapter.ChatRoomAdapter;
 import com.ptit.fragment.ChatRoomFragment;
-import com.ptit.fragment.ProfileFragment;
 import com.ptit.model.ChatRoom;
 import com.ptit.model.User;
 import com.ptit.supporter.mToast;
@@ -115,8 +110,8 @@ public class ListChatRoomActivity extends AppCompatActivity {
         ChatRoomFragment chatRoomFragment = new ChatRoomFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("USER", userLogin);
-        bundle.putSerializable("ROOM", roomSelected);
+        bundle.putSerializable(getString(R.string.userlogin), userLogin);
+        bundle.putSerializable(getString(R.string.roomSelected), roomSelected);
         chatRoomFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -336,7 +331,7 @@ public class ListChatRoomActivity extends AppCompatActivity {
 //        moveTaskToBack(true);
 //         ChatRoomFragment fragment = (ChatRoomFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_listRoom);
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.container_layout_chatroom);
-        if (f instanceof ChatRoomFragment || f instanceof ProfileFragment) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+        if (f instanceof ChatRoomFragment) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
             super.onBackPressed();
 
         }
@@ -350,15 +345,18 @@ public class ListChatRoomActivity extends AppCompatActivity {
 
     private void showProfilePage(User userLogin) {
 
-        ProfileFragment profileFragment = new ProfileFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("USER", userLogin);
-        profileFragment.setArguments(bundle);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container_layout_chatroom,profileFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+//        ProfileFragment profileFragment = new ProfileFragment();
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(getString(R.string.userlogin), userLogin);
+//        profileFragment.setArguments(bundle);
+//
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.container_layout_chatroom,profileFragment);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+        Intent intent = new Intent(ListChatRoomActivity.this, ProfileActivity.class);
+        intent.putExtra(getString(R.string.userlogin), userLogin);
+        startActivity(intent);
     }
 }
