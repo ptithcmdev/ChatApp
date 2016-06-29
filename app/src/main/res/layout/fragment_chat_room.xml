@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:fitsSystemWindows="true"
+    android:windowSoftInputMode="adjustResize"
     android:orientation="vertical" >
 
     <ListView
