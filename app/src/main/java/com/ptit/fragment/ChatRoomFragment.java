@@ -119,12 +119,13 @@ public class ChatRoomFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_chat_room,container,false);
 
-        userLogin = (User) getArguments().getSerializable(getString(R.string.userlogin));
-        roomSelected = (ChatRoom) getArguments().getSerializable(getString(R.string.roomSelected));
+        userLogin = (User) getArguments().getSerializable("USER");
+        roomSelected = (ChatRoom) getArguments().getSerializable("ROOM");
 
         addControls(v);
         addEvents();
 
+//        return inflater.inflate(R.layout.fragment_chat_room, container, false);
         return v;
     }
 
@@ -215,13 +216,14 @@ public class ChatRoomFragment extends Fragment {
 //        }
 //    }
 //
-    @Override
+//    @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-        MainActivity.mSocket.emit("client-out-room", userLogin.getRoom());
-
+//        mListener = null;
+        MainActivity.mSocket.emit("client-out-room",userLogin.getRoom());
     }
+
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

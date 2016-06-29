@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     {
         try {
-            mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
-//            mSocket = IO.socket("http://10.0.3.2:3000/");
+//            mSocket = IO.socket("http://nodejs-chatptit.rhcloud.com/");
+            mSocket = IO.socket("http://10.0.3.2:3000/");
         } catch (URISyntaxException e) {
             Log.d("", "instance initializer: ");
         }
