@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="RtlHardcoded"
+
     >
 
     <android.support.design.widget.AppBarLayout
@@ -19,7 +19,7 @@
             android:id="@+id/main.collapsing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
 
             <ImageView
@@ -86,8 +86,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="false"
+        android:fitsSystemWindows="true"
         android:scrollbars="none"
+        android:id="@+id/nestedScrollViewProfie"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
 

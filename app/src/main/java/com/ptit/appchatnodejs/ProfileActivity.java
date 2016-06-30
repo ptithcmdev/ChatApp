@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +31,8 @@ import com.ptit.utils.ConvertImage;
 
 public class ProfileActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener{
 
-    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
-    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.3f;
+    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.8f;
+    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.4f;
     private static final int ALPHA_ANIMATIONS_DURATION              = 200;
 
     private boolean mIsTheTitleVisible          = false;
@@ -195,6 +197,15 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
 
             if(!mIsTheTitleVisible) {
                 startAlphaAnimation(mTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mToolbar.getLayoutParams();
+                AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+                behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                    @Override
+                    public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+                        return false;
+                    }
+                });
+//                params.setScrollFlags(0);
                 mIsTheTitleVisible = true;
                 mToolbar.setBackgroundTintList(null);
             }
@@ -213,6 +224,7 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
             if(mIsTheTitleContainerVisible) {
                 startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                mTitleContainer.setScrollContainer(false);
                 mIsTheTitleContainerVisible = false;
             }
 
