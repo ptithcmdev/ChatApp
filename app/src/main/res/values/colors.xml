@@ -13,6 +13,7 @@
     <color name="primaryDark">#5B3F36</color>
 
     <color name="toolbarTint">#00ffffff</color>
+    <color name="blue">#2424ff</color>
 
 
 </resources>

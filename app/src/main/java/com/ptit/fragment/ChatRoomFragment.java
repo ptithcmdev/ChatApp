@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -48,16 +48,14 @@ import java.util.ArrayList;
  * {@link ChatRoomFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ChatRoomFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+        * create an instance of this fragment.
+        */
 public class ChatRoomFragment extends Fragment {
 
     /// server
     private Socket mSocket;
 
-
-
-    private Toolbar chatRoomToolBar;
+    private  Toolbar chatRoomToolBar;
     private Button btnSendMessage;
     private EditText txtMessage;
     private ListView lvChatRoom;
@@ -218,11 +216,11 @@ public class ChatRoomFragment extends Fragment {
 //    }
 //
 //    @Override
-    public void onDetach() {
-        super.onDetach();
+//    public void onDetach() {
+//        super.onDetach();
 //        mListener = null;
-        MainActivity.mSocket.emit("client-out-room",userLogin.getRoom());
-    }
+//        MainActivity.mSocket.emit("client-out-room",userLogin.getRoom());
+//    }
 
 
 

@@ -71,12 +71,9 @@ public class ListChatRoomActivity extends AppCompatActivity {
     }
 
     private void socketsServer() {
-        if (mSocket == null) mSocket = MainActivity.mSocket;
-        {
-            mSocket.on("result-create-room", onServerSendResultCreateRoom);
-            mSocket.on("server-send-list-room", onServerSendListRoom);
-            mSocket.emit("client-login-successful");
-        }
+        mSocket.on("result-create-room", onServerSendResultCreateRoom);
+        mSocket.on("server-send-list-room", onServerSendListRoom);
+        mSocket.emit("client-login-successful");
     }
 
     private void getDataFromLoginActivity() {

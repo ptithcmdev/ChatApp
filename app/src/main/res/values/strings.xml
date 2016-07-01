@@ -55,4 +55,15 @@
     <string name="camera">Take a new photo</string>
     <string name="selectedPhoto">Selected photos in the gallery</string>
     <string name="save">Save</string>
+    <string name="ChangePassword">Change password</string>
+    <string name="oldPassword">Old password:</string>
+    <string name="enterOldPass">Enter old password</string>
+    <string name="newPassword">New password</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="btnSave">SAVE</string>
+    <string name="btnCancel">CANCEL</string>
+    <string name="error_OldPass">Old passwrod is wrong !</string>
+    <string name="error_confirmPass">Confirm password is wrong !</string>
+    <string name="dontEnterConfirmPass">You must enter confirm password</string>
+    <string name="dontEnterNewPass">You must enter new password</string>
 </resources>
