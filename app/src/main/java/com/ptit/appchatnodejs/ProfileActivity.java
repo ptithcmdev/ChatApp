@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -193,19 +195,11 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
     }
 
     private void handleToolbarTitleVisibility(float percentage) {
+
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
 
             if(!mIsTheTitleVisible) {
                 startAlphaAnimation(mTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mToolbar.getLayoutParams();
-                AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-                behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-                    @Override
-                    public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
-                        return false;
-                    }
-                });
-//                params.setScrollFlags(0);
                 mIsTheTitleVisible = true;
                 mToolbar.setBackgroundTintList(null);
             }
@@ -221,9 +215,14 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
     }
 
     private void handleAlphaOnTitle(float percentage) {
+//        CoordinatorLayout params = (CoordinatorLayout) mToolbar.getParent();
+//        NestedScrollView nestedScrollView = (NestedScrollView) params.findViewById(R.id.nestedScrollViewProfie);
+//        LinearLayout ll = (LinearLayout) params.findViewById(R.id.linearLayoutViewProfie);
+////        nestedScrollView.onStopNestedScroll(ll);
+//        nestedScrollView.setScrollContainer(false);
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
             if(mIsTheTitleContainerVisible) {
-                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+//                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
                 mTitleContainer.setScrollContainer(false);
                 mIsTheTitleContainerVisible = false;
             }
@@ -231,7 +230,7 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         } else {
 
             if (!mIsTheTitleContainerVisible) {
-                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+//                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
                 mIsTheTitleContainerVisible = true;
             }
         }

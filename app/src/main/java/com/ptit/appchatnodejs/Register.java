@@ -65,7 +65,6 @@ public class Register extends AppCompatActivity {
                         } else if (ketQua == 1) {
                                 Toast.makeText(Register.this, "Tên đăng nhập đã tồn tại ", Toast.LENGTH_SHORT).show();
                         } else {
-
                             Toast.makeText(Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                             finish();
                         }
