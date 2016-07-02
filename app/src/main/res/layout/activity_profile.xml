@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    tools:ignore="RtlHardcoded"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -19,11 +19,12 @@
             android:id="@+id/main.collapsing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             >
+            <!--android:id="@+id/main.imageview.placeholder"-->
 
             <ImageView
-                android:id="@+id/main.imageview.placeholder"
+                android:id="@+id/imgBackground"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
@@ -85,10 +86,9 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
         android:scrollbars="none"
-        android:id="@+id/nestedScrollViewProfie"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
@@ -102,8 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardElevation="2dp"
-                app:contentPadding="16dp"
+                app:contentPadding="10dp"
+
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,9 +118,11 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:text="hoangsang"
                         android:id="@+id/txtDisplayname"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <!--<TextView-->
@@ -143,8 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardElevation="2dp"
-                app:contentPadding="16dp"
+                app:contentPadding="10dp"
                 >
 
                 <LinearLayout
@@ -157,10 +158,11 @@
                         android:text="@string/birthday"
                         android:textSize="18sp"
                         android:layout_weight="1.2" />
-                    <EditText
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="8dp"
+                        android:textStyle="bold"
                         android:text="24/02/1996"
                         android:id="@+id/txtBirthday"
                         android:textSize="18sp"
@@ -186,8 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardElevation="2dp"
-                app:contentPadding="16dp"
+                app:contentPadding="10dp"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -243,8 +244,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardElevation="2dp"
-                app:contentPadding="16dp"
+                app:contentPadding="10dp"
                 >
 
                 <LinearLayout
@@ -260,36 +260,40 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:textStyle="bold"
                         android:lineSpacingExtra="8dp"
                         android:text="123456789"
                         android:id="@+id/txtPhoneNumber"
                         android:textSize="18sp"
                         android:layout_weight="1" />
 
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:lineSpacingExtra="8dp"-->
-                        <!--android:gravity="right"-->
-                        <!--android:text="@string/edit"-->
-                        <!--android:id="@+id/txtEditPhone"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:layout_weight="1.5"-->
-                        <!--android:linksClickable="true"-->
-                        <!--android:textStyle="bold|italic"-->
-                        <!--android:singleLine="false" />-->
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-            <!--<android.support.v7.widget.CardView-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="8dp"-->
-                <!--app:cardElevation="2dp"-->
-                <!--android:id="@+id/cardviewTOOL"-->
-                <!--app:contentPadding="16dp"-->
-                <!--&gt;-->
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:contentPadding="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="8dp"
+                        android:gravity="center"
+                        android:id="@+id/txtChangePassword"
+                        android:text="@string/ChangePassword"
+                        android:textSize="18sp"
+                         />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -302,33 +306,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="8dp"
-                        android:id="@+id/btnEdit"
+                        android:id="@+id/btnEditAndSave"
                         android:text="@string/edit"
                         android:textSize="18sp"
                         android:layout_weight="1" />
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="8dp"
-                        android:text="@string/save"
-                        android:id="@+id/btnSave"
-                        android:textSize="18sp"
-                        android:layout_weight="1" />
+                    <!--<Button-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:lineSpacingExtra="8dp"-->
+                        <!--android:text="@string/save"-->
+                        <!--android:id="@+id/btnSave"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:layout_weight="1" />-->
 
-                    <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:lineSpacingExtra="8dp"-->
-                    <!--android:gravity="right"-->
-                    <!--android:text="@string/edit"-->
-                    <!--android:id="@+id/txtEditPhone"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:layout_weight="1.5"-->
-                    <!--android:linksClickable="true"-->
-                    <!--android:textStyle="bold|italic"-->
-                    <!--android:singleLine="false" />-->
+
                 </LinearLayout>
-            <!--</android.support.v7.widget.CardView>-->
         </LinearLayout>
 
 
@@ -370,7 +362,7 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_width"
         android:layout_gravity="center_horizontal"
