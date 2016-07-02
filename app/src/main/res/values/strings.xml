@@ -66,4 +66,8 @@
     <string name="error_confirmPass">Confirm password is wrong !</string>
     <string name="dontEnterConfirmPass">You must enter confirm password</string>
     <string name="dontEnterNewPass">You must enter new password</string>
+    <string name="ChangeAvatar">Change Avatar</string>
+    <string name="ChangeBackground">Change Background</string>
+    <string name="enterNewPassword">Enter New password</string>
+    <string name="enterConfirmPass">Enter confirm pass</string>
 </resources>

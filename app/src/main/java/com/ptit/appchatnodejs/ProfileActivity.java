@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.github.nkzawa.socketio.client.Socket;
 import com.ptit.model.User;
 import com.ptit.supporter.mToast;
-import com.ptit.utils.CircleImageBitmap;
 import com.ptit.utils.ConvertImage;
 
 import java.text.SimpleDateFormat;
@@ -109,25 +108,25 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
 
         ConvertImage.String_to_Image(userLogin.getAvatar(), imgAvata);
 
-        Bitmap bitmap = ((BitmapDrawable)imgAvata.getDrawable()).getBitmap();
-        bitmap = Bitmap.createScaledBitmap(bitmap,80,80,true);
-        bitmap = CircleImageBitmap.getCircleBitmap(bitmap);
-        imgAvata.setImageBitmap(bitmap);
+//        Bitmap bitmap = ((BitmapDrawable)imgAvata.getDrawable()).getBitmap();
+//        bitmap = Bitmap.createScaledBitmap(bitmap,80,80,true);
+//        bitmap = CircleImageBitmap.getCircleBitmap(bitmap);
+//        imgAvata.setImageBitmap(bitmap);
 
 //        registerForContextMenu(imgAvata);
         imgAvata.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showDialogChangeAvatar(AVATAR);
+            public void onClick(View v){
+                showDialogChangeImage(AVATAR);
             }
         });
 
-//        imgBackground.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showDialogChangeAvatar(BACKGROUND);
-//            }
-//        });
+        imgBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogChangeImage(BACKGROUND);
+            }
+        });
 
         txtBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtOldPass.getText().equals(userLogin.getPassword())){
+                if (txtOldPass.getText().toString().equals(userLogin.getPassword())){
                     if (txtNewPass.getText().toString().trim().equals("")){
                         mToast.toastShort(ProfileActivity.this, getString(R.string.dontEnterNewPass));
                         txtNewPass.requestFocus();
@@ -259,20 +258,26 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         dialogBirthday.show();
     }
 
-    private void showDialogChangeAvatar(final int request) {
-        Dialog dialogChangeAvater = new Dialog(this);
-        dialogChangeAvater.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogChangeAvater.setContentView(R.layout.dialog_changeImage);
+    private void showDialogChangeImage(final int request) {
+        Dialog dialogChangeImage = new Dialog(this);
+        dialogChangeImage.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogChangeImage.setContentView(R.layout.dialog_change_image);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialogChangeAvater.getWindow().getAttributes());
+        lp.copyFrom(dialogChangeImage.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        TextView txtSeePhoto, txtTakePhoto, txtSelectedPhoto;
-        txtSeePhoto = (TextView) dialogChangeAvater.findViewById(R.id.txtSeePhoto);
-        txtTakePhoto= (TextView) dialogChangeAvater.findViewById(R.id.txtTakePhoto);
-        txtSelectedPhoto = (TextView) dialogChangeAvater.findViewById(R.id.txtSelectedPhotoFromGallery);
+        TextView txtSeePhoto, txtTakePhoto, txtSelectedPhoto, txtTitle;
+        txtTitle = (TextView) dialogChangeImage.findViewById(R.id.txtTitle);
+        txtSeePhoto = (TextView) dialogChangeImage.findViewById(R.id.txtSeePhoto);
+        txtTakePhoto= (TextView) dialogChangeImage.findViewById(R.id.txtTakePhoto);
+        txtSelectedPhoto = (TextView) dialogChangeImage.findViewById(R.id.txtSelectedPhotoFromGallery);
+
+        if (request==AVATAR)
+            txtTitle.setText(getString(R.string.ChangeAvatar));
+        else
+            txtTitle.setText(getString(R.string.ChangeBackground));
 
         txtSeePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,8 +299,8 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
                 startActivityForResult(intent, request==AVATAR ? RESULT_LOAD_IMAGE_FOR_AVATAR: RESULT_LOAD_IMAGE_FOR_BACKGROUND);
             }
         });
-        dialogChangeAvater.show();
-        dialogChangeAvater.getWindow().setAttributes(lp);
+        dialogChangeImage.show();
+        dialogChangeImage.getWindow().setAttributes(lp);
     }
 
     private void showDialogSeePhoto(int request) {
@@ -393,7 +398,7 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtStatus = (TextView) findViewById(R.id.txtStatus);
         imgAvata = (ImageView) findViewById(R.id.imgAvatar);
-//        imgBackground = (ImageView) findViewById(R.id.imgBackground);
+        imgBackground = (ImageView) findViewById(R.id.imgBackground);
 
         txtDisplayName = (EditText) findViewById(R.id.txtDisplayname);
         txtBirthday = (TextView) findViewById(R.id.txtBirthday);
