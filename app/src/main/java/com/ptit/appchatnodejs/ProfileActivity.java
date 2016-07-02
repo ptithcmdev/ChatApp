@@ -144,9 +144,18 @@ public class ProfileActivity extends AppCompatActivity implements AppBarLayout.O
         btnEditAndSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EnableText();
+                saveChangeInformationProfile();
             }
         });
+    }
+
+    private void saveChangeInformationProfile() {
+        if (btnEditAndSave.getText().toString().equals(getString(R.string.edit))){
+            EnableText();
+            btnEditAndSave.setText(getString(R.string.save));
+        }else { // SAVE
+
+        }
     }
 
     private void showDialogChangePassword() {
